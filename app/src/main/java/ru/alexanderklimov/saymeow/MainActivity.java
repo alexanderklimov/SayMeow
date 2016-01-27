@@ -28,23 +28,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // Для устройств до Android 5
-            createOldSoundPool();
-        } else {
-            // Для новых устройств
-            createNewSoundPool();
-        }
+//        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            // Для устройств до Android 5
+//            createOldSoundPool();
+//        } else {
+//            // Для новых устройств
+//            createNewSoundPool();
+//        }
 
-        mAssetManager = getAssets();
-
-        // получим идентификаторы
-        mCatSound = loadSound("cat.ogg");
-        mChickenSound = loadSound("chicken.ogg");
-        mCowSound = loadSound("cow.ogg");
-        mDogSound = loadSound("dog.ogg");
-        mDuckSound = loadSound("duck.ogg");
-        mSheepSound = loadSound("sheep.ogg");
+//        mAssetManager = getAssets();
+//
+//        // получим идентификаторы
+//        mCatSound = loadSound("cat.ogg");
+//        mChickenSound = loadSound("chicken.ogg");
+//        mCowSound = loadSound("cow.ogg");
+//        mDogSound = loadSound("dog.ogg");
+//        mDuckSound = loadSound("duck.ogg");
+//        mSheepSound = loadSound("sheep.ogg");
 
         ImageButton cowImageButton = (ImageButton) findViewById(R.id.imageButtonCow);
 //        cowImageButton.setOnClickListener(onClickListener);
@@ -146,5 +146,36 @@ public class MainActivity extends AppCompatActivity {
             return -1;
         }
         return mSoundPool.load(afd, 1);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            // Для устройств до Android 5
+            createOldSoundPool();
+        } else {
+            // Для новых устройств
+            createNewSoundPool();
+        }
+
+        mAssetManager = getAssets();
+
+        // получим идентификаторы
+        mCatSound = loadSound("cat.ogg");
+        mChickenSound = loadSound("chicken.ogg");
+        mCowSound = loadSound("cow.ogg");
+        mDogSound = loadSound("dog.ogg");
+        mDuckSound = loadSound("duck.ogg");
+        mSheepSound = loadSound("sheep.ogg");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSoundPool.release();
+        mSoundPool = null;
     }
 }
